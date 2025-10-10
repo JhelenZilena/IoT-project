@@ -13,19 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $t) {
+        Schema::create('departaments', function (Blueprint $t) {
             $t->id();
-            $t->sting('firstname');
-            $t->sting('lastname');
-            $t->sting('username');
-            $t->sting('role');
-            $t->sting('email')->unique();
-            $t->sting('password');
-            $t->sting('mobile_phone');
+            $t->string('name');
+            $t->string('code')->nullable();
+            $t->string('abbrev',10)->nullable();
             $t->boolean('status')->default(true);
-            $t->unsignedBigInteger('id_city')->nullable();
-            $t->rememberToken();
+            $t->foreignId('id_country')->constrained('countries');
             $t->timestamps();
+            $t->softDeletes();
         });
     }
 
@@ -36,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('departaments');
     }
 };

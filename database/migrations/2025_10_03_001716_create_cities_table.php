@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cities', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('code')->unique();
-            $table->string('abbrev')->unique();
-            $table->boolean('status')->default(true);
-            $table->unsignedBigInteger('id_department');
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::create('cities', function (Blueprint $t) {
+            $t->id();
+            $t->string('name');
+            $t->string('code')->unique();
+            $t->string('abbrev')->unique();
+            $t->boolean('status')->default(true);
+            $t->foreignId('id_departament')->constrained('departaments');
+            $t->timestamps();
+            $t->softDeletes();
         });
     }
 

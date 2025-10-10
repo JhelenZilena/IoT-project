@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sensors', function (Blueprint $t) {
+        Schema::create('sensor__data', function (Blueprint $t) {
               $t->id();
-              $t->string('name');
-              $t->string('code')->unique();
-              $t->string('abbrev',20)->nullable();
+              $t->foreignId('id_sensor')->constrained('sensors');
+              $t->foreignId('id_station')->constrained('stations');
+              $t->float('temp_value')->nullable();
               $t->boolean('status')->default(true);
-              $t->foreignId('id_departament')->constrained('departaments');
               $t->timestamps();
+              $t->softDeletes();
 
         });
     }
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sensors');
+        Schema::dropIfExists('sensor__data');
     }
 };

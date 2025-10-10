@@ -14,13 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('countries', function (Blueprint $t) {
-            $t->id();
-            $t->string('name');
-            $t->string('code')->unique();
-            $t->string('abbrev')->unique();
-            $t->boolean('status')->default(true);
-            $t->timestamps();
-            $t->softDeletes();
+              $t->id();
+              $t->string('name');
+              $t->string('code')->nullable();
+              $t->string('abbrev',10)->nullable();
+              $t->boolean('status')->default(true);
+              $t->timestamps();
+              $t->softDeletes();
         });
     }
 
