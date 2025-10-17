@@ -434,7 +434,6 @@
                         <th>Estado</th>
                         <th>Ubicación</th>
                         <th>Última Actividad</th>
-                        <th>Sensores</th>
                         <th>Batería</th>
                         <th>Acciones</th>
                     </tr>
