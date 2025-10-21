@@ -21,7 +21,7 @@ return new class extends Migration
               $t->boolean('status')->default(true);
               $t->foreignId('id_departament')->constrained('departaments');
               $t->timestamps();
-
+              $t->softDeletes();
         });
     }
 

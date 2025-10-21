@@ -86,7 +86,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">ESP32</a></li>
             <li class="breadcrumb-item"><a href="#">LTE (SIM7670G)</a></li>
-            <li class="breadcrumb-item"><a href="#">PostgreSQL</a></li>
+            <li class="breadcrumb-item"><a href="#">{{ $dbDriver ?? 'PostgreSQL' }}</a></li>
             <li class="breadcrumb-item active" aria-current="page">Panel demo • Formulario & Tabla</li>
         </ol>
     </nav>
@@ -102,13 +102,13 @@
                 <div>
                     <ul class="nav nav-pills">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Inicio</a>
+                            <a class="nav-link active" href="{{ route('dashboard') }}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Tabla</a>
+                            <a class="nav-link" href="{{ route('tabla') }}">Tabla</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Formulario</a>
+                            <a class="nav-link" href="{{ route('Registro') }}">Formulario</a>
                         </li>
                     </ul>
                 </div>
@@ -119,16 +119,18 @@
     <!-- Action Buttons -->
     <div class="row mb-4">
         <div class="col-12">
-            <button class="btn btn-primary me-2">
-                <a href="{{ route('Registro') }}" class="btn btn-outline-secondary">
+            <a href="{{ route('Registro') }}" class="btn btn-primary me-2">
                 <i class="fas fa-plus"></i> Registrar dato
-                </a>
-            </button>
-            <button class="btn btn-outline-secondary">
-                <a href="{{ route('tabla') }}" class="btn btn-outline-secondary">
+            </a>
+            <a href="{{ route('tabla') }}" class="btn btn-outline-secondary me-2">
                 <i class="fas fa-table"></i> Ver tabla
-                </a>
-            </button>
+            </a>
+            <a href="{{ route('stations.index') }}" class="btn btn-outline-primary me-2">
+                <i class="fas fa-broadcast-tower"></i> Estaciones
+            </a>
+            <a href="{{ route('sensors.index') }}" class="btn btn-outline-info">
+                <i class="fas fa-microchip"></i> Sensores
+            </a>
         </div>
     </div>
 
@@ -140,9 +142,9 @@
                     <div class="icon-circle bg-success bg-opacity-10 text-success mx-auto">
                         <i class="fas fa-wifi"></i>
                     </div>
-                    <h3 class="card-title mb-1">3</h3>
+                    <h3 class="card-title mb-1">{{ $sensorsOnline ?? 0 }}</h3>
                     <p class="card-text text-muted mb-0">Sensores en línea</p>
-                    <small class="text-success">Demo [modo] • Ajustable</small>
+                    <small class="text-success">Estado actual • Base de datos</small>
                 </div>
             </div>
         </div>
@@ -153,9 +155,21 @@
                     <div class="icon-circle bg-info bg-opacity-10 text-info mx-auto">
                         <i class="fas fa-clock"></i>
                     </div>
-                    <h3 class="card-title mb-1">hace 2 min</h3>
+                    <h3 class="card-title mb-1">
+                        @if($lastSync)
+                        {{ \Carbon\Carbon::parse($lastSync)->diffForHumans() }}
+                        @else
+                        Sin datos
+                        @endif
+                    </h3>
                     <p class="card-text text-muted mb-0">Última sincronización</p>
-                    <small class="text-muted">Simulada para la demo</small>
+                    <small class="text-muted">
+                        @if($lastSync)
+                        {{ \Carbon\Carbon::parse($lastSync)->format('d/m/Y H:i') }}
+                        @else
+                        Esperando datos
+                        @endif
+                    </small>
                 </div>
             </div>
         </div>
@@ -166,65 +180,73 @@
                     <div class="icon-circle bg-primary bg-opacity-10 text-primary mx-auto">
                         <i class="fas fa-database"></i>
                     </div>
-                    <h3 class="card-title mb-1">MYSQL</h3>
+                    <h3 class="card-title mb-1">{{ $dbDriver ?? 'MYSQL' }}</h3>
                     <p class="card-text text-muted mb-0">Base de datos</p>
-                    <small class="text-success">Conectado vía MYSQL</small>
+                    <small class="text-success">Conectado vía {{ $dbDriver ?? 'MYSQL' }}</small>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Modules Section -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <h4 class="mb-3">Módulos</h4>
+<div class="row mb-4">
+    <div class="col-12">
+        <h4 class="mb-3">Módulos</h4>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card module-card h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-start">
+                    <div class="icon-circle bg-secondary bg-opacity-10 text-secondary me-3">
+                        <i class="fas fa-list-alt"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="card-title">Gestión de registros</h5>
+                        <p class="card-text text-muted">Crea y lista registros (base para actores, pacientes o dispositivos).</p>
+                        <a href="{{ route('tabla') }}" class="btn btn-sm btn-outline-secondary mt-2">
+                            <i class="fas fa-arrow-right"></i> Ir al módulo
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="card module-card h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-start">
-                        <div class="icon-circle bg-secondary bg-opacity-10 text-secondary me-3">
-                            <i class="fas fa-list-alt"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <h5 class="card-title">Gestión de registros</h5>
-                            <p class="card-text text-muted">Crea y lista registros (base para actores, pacientes o dispositivos).</p>
-                        </div>
+    <div class="col-md-4 mb-4">
+        <div class="card module-card h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-start">
+                    <div class="icon-circle bg-warning bg-opacity-10 text-warning me-3">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="card-title">Dispositivos IoT</h5>
+                        <p class="card-text text-muted">Registro de dispositivos ESP32/SIM7670G, asignación y estado.</p>
+                        <a href="{{ route('stations.index') }}" class="btn btn-sm btn-outline-warning mt-2">
+                            <i class="fas fa-broadcast-tower"></i> Ver estaciones
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="col-md-4 mb-4">
-            <div class="card module-card h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-start">
-                        <div class="icon-circle bg-warning bg-opacity-10 text-warning me-3">
-                            <i class="fas fa-microchip"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <h5 class="card-title">Dispositivos IoT</h5>
-                            <p class="card-text text-muted">Registro de dispositivos ESP32/SIM7670G, asignación y estado (pendiente).</p>
-                        </div>
+    <div class="col-md-4 mb-4">
+        <div class="card module-card h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-start">
+                    <div class="icon-circle bg-info bg-opacity-10 text-info me-3">
+                        <i class="fas fa-chart-line"></i>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card module-card h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-start">
-                        <div class="icon-circle bg-info bg-opacity-10 text-info me-3">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <h5 class="card-title">Panel tiempo real</h5>
-                            <p class="card-text text-muted">Gráficas de telemetría (SpO2, pulso, temperatura) con WebSockets (pendiente).</p>
-                        </div>
+                    <div class="flex-grow-1">
+                        <h5 class="card-title">Panel tiempo real</h5>
+                        <p class="card-text text-muted">Gráficas de telemetría (SpO2, pulso, temperatura) con datos en tiempo real.</p>
+                        <a href="{{ route('sensors.index') }}" class="btn btn-sm btn-outline-info mt-2">
+                            <i class="fas fa-microchip"></i> Ver sensores
+                        </a>
                     </div>
                 </div>
             </div>
