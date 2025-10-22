@@ -10,26 +10,24 @@ class Sensor extends Model
 {
     use HasFactory, SoftDeletes;
 
-    // Campos que pueden ser asignados masivamente
     protected $fillable = [
         'name',
         'code',
         'abbrev',
         'status',
-        'id_department', // coincide con tu tabla y tu modelo actual
+        'id_departament', // ← CORREGIDO: sin 's'
     ];
 
     /**
      * Relación con Departaments
-     * Cada sensor pertenece a un departamento
      */
-    public function departaments()
+    public function Departaments()
     {
-        return $this->belongsTo(Departaments::class, 'id_department'); // referencia tu modelo actual
+        return $this->belongsTo(Departaments::class, 'id_departament'); // ← CORREGIDO: sin 's'
     }
 
     /**
-     * Relación con los datos del sensor (telemetría)
+     * Relación con los datos del sensor
      */
     public function data()
     {

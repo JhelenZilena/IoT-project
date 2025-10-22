@@ -136,7 +136,7 @@
                                 value="{{ $city->id }}" 
                                 {{ old('id_city') == $city->id ? 'selected' : '' }}
                             >
-                                {{ $city->name }} - {{ $city->department->name }}
+                                {{ $city->name }} - {{ $city->Departaments?->name }}
                             </option>
                         @endforeach
                     </select>

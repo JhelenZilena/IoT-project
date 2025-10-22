@@ -37,7 +37,7 @@ class DataApiController extends Controller
                 default => "date_trunc('hour', created_at)"
             };
 
-            $rows = SensorData::selectRaw("$bucket as b, AVG(temp_value) as t, AVG(humidity) as h")
+            $rows = Sensor_Data::selectRaw("$bucket as b, AVG(temp_value) as t, AVG(humidity) as h") // CORREGIDO: Sensor_Data
                 ->where('id_station', $stationId)
                 ->whereBetween('created_at', [$from, $to])
                 ->groupBy(DB::raw('b'))
@@ -51,7 +51,7 @@ class DataApiController extends Controller
                 default => '%Y-%m-%d %H:00:00'
             };
 
-            $rows = SensorData::selectRaw("STR_TO_DATE(DATE_FORMAT(created_at, '$fmt'), '%Y-%m-%d %H:%i:%s') as b, AVG(temp_value) as t, AVG(humidity) as h")
+            $rows = Sensor_Data::selectRaw("STR_TO_DATE(DATE_FORMAT(created_at, '$fmt'), '%Y-%m-%d %H:%i:%s') as b, AVG(temp_value) as t, AVG(humidity) as h") // CORREGIDO: Sensor_Data
                 ->where('id_station', $stationId)
                 ->whereBetween('created_at', [$from, $to])
                 ->groupBy(DB::raw('b'))

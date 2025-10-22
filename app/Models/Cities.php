@@ -8,8 +8,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cities extends Model
 {
-    use SoftDeletes; protected $guarded = [];
-    public function department(){ return $this->belongsTo(Departaments::class, 'id_department'); }
-    public function stations(){ return $this->hasMany(Station::class, 'id_city'); }
-
+    use SoftDeletes; 
+    
+    protected $guarded = [];
+    
+    // CORREGIDO: Cambiar department por Departaments
+    public function Departaments()
+    { 
+        return $this->belongsTo(Departaments::class, 'id_Departaments'); 
+    }
+    
+    public function stations()
+    { 
+        return $this->hasMany(Station::class, 'id_city'); 
+    }
 }

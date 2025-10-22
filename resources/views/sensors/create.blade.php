@@ -142,27 +142,27 @@
 
                 <!-- Departamento -->
                 <div class="col-md-12 mb-3">
-                    <label for="id_department" class="form-label">
+                    <label for="id_Departaments" class="form-label">
                         <i class="fas fa-map-marked-alt text-success me-1"></i>
                         Departamento *
                     </label>
                     <select 
-                        name="id_department" 
-                        id="id_department" 
-                        class="form-select @error('id_department') is-invalid @enderror"
+                        name="id_Departaments" 
+                        id="id_Departaments" 
+                        class="form-select @error('id_Departaments') is-invalid @enderror"
                         required
                     >
                         <option value="">Seleccionar departamento...</option>
-                        @foreach($departments as $department)
+                        @foreach($Departaments as $department)
                             <option 
                                 value="{{ $department->id }}" 
-                                {{ old('id_department') == $department->id ? 'selected' : '' }}
+                                {{ old('id_Departaments') == $department->id ? 'selected' : '' }}
                             >
-                                {{ $department->name }} - {{ $department->country->name }}
+                                {{ $department->name }} - {{ $department->country?->name ?? 'N/A' }}
                             </option>
                         @endforeach
                     </select>
-                    @error('id_department')
+                    @error('id_Departaments')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>

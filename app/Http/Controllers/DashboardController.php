@@ -10,7 +10,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $stations = Station::with('city')
+        $stations = Station::with('city.Departaments.country') // CORREGIDO: city.Departaments.country
             ->where('status', true)
             ->orderBy('name')
             ->get();
