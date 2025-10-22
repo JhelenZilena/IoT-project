@@ -95,8 +95,8 @@
                             <td>
                                 <span class="badge bg-secondary">{{ $sensor->abbrev ?? 'N/A' }}</span>
                             </td>
-                            <td>{{ $sensor->department->name }}</td>
-                            <td>{{ $sensor->department->country->name }}</td>
+                            <td>{{ $sensor->departaments?->name ?? 'N/A' }}</td>
+                            <td>{{ $sensor->departaments?->country?->name ?? 'N/A' }}</td>
                             <td>
                                 @if($sensor->status)
                                     <span class="badge bg-success status-badge">
@@ -153,7 +153,7 @@
                         </label>
                         <select id="station_id" class="form-select">
                             @forelse($sensors as $sensor)
-                                <option value="{{ $station->id }}" {{ $loop->first ? 'selected' : '' }}>
+                                <option value="{{ $sensor->id }}" {{ $loop->first ? 'selected' : '' }}>
                                     {{ $sensor->name }}
                                 </option>
                             @empty

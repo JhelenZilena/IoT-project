@@ -82,9 +82,9 @@
                                 </div>
                             </td>
                             <td><code class="text-muted">{{ $station->code ?? 'N/A' }}</code></td>
-                            <td>{{ $station->city->name }}</td>
-                            <td>{{ $station->city->department->name }}</td>
-                            <td>{{ $station->city->department->country->name }}</td>
+                            <td>{{ $station->city?->name ?? 'N/A' }}</td>
+                            <td>{{ $station->city?->department?->name ?? 'N/A' }}</td>
+                            <td>{{ $station->city?->department?->country?->name ?? 'N/A' }}</td>
                             <td>
                                 @if($station->status)
                                     <span class="badge bg-success status-badge">
