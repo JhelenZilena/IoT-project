@@ -4,115 +4,212 @@
 
 @push('css')
 <style>
-    body {
-
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        min-height: 100vh;
-    }
-
     .main-container {
-        max-width: 1400px;
+        max-width: 1600px;
         margin: 0 auto;
         padding: 2rem;
     }
 
     .header-section {
-        margin-bottom: 2rem;
+        margin-bottom: 3rem;
+        text-align: center;
     }
 
     .page-title {
-        font-size: 2.2rem;
-        font-weight: 300;
-        color: #2c3e50;
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         margin-bottom: 0.5rem;
-        letter-spacing: -0.5px;
     }
 
     .page-subtitle {
-        font-size: 1rem;
-        color: #546e7a;
-        margin-bottom: 1.5rem;
+        font-size: 1.1rem;
+        color: #6c757d;
+        max-width: 600px;
+        margin: 0 auto;
         line-height: 1.6;
     }
 
     .breadcrumb-nav {
-        background: none;
-        padding: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
         margin-bottom: 2rem;
         font-size: 0.9rem;
     }
 
     .breadcrumb-nav a {
-        color: #546e7a;
+        color: #6c757d;
         text-decoration: none;
         transition: color 0.3s ease;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        background: rgba(255,255,255,0.8);
+        border: 1px solid rgba(0,0,0,0.1);
     }
 
     .breadcrumb-nav a:hover {
-        color: #2c3e50;
+        color: #495057;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     .breadcrumb-nav .active {
-        color: #2c3e50;
-        font-weight: 500;
+        color: #495057;
+        font-weight: 600;
+        background: white;
     }
 
-    .table-container {
-        background: rgba(255, 255, 255, 0.95);
+    .breadcrumb-nav .separator {
+        color: #adb5bd;
+    }
+
+    /* Statistics Cards */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .stat-card {
+        background: white;
         border-radius: 16px;
-        padding: 0;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 1.5rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border-left: 4px solid;
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .stat-card.total { border-left-color: #667eea; }
+    .stat-card.active { border-left-color: #28a745; }
+    .stat-card.offline { border-left-color: #dc3545; }
+    .stat-card.maintenance { border-left-color: #ffc107; }
+
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: white;
+    }
+
+    .stat-card.total .stat-icon { background: #667eea; }
+    .stat-card.active .stat-icon { background: #28a745; }
+    .stat-card.offline .stat-icon { background: #dc3545; }
+    .stat-card.maintenance .stat-icon { background: #ffc107; }
+
+    .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2c3e50;
+        display: block;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        color: #6c757d;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Table Container */
+    .table-container {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
         overflow: hidden;
+        border: 1px solid rgba(0,0,0,0.05);
     }
 
     .table-header {
-        background: linear-gradient(135deg, #2196f3, #21cbf3);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
-        padding: 1.5rem 2rem;
-        border-radius: 16px 16px 0 0;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .table-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 100%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+        background-size: 20px 20px;
+        transform: rotate(30deg);
     }
 
     .table-title {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
         font-weight: 600;
         margin: 0;
+        position: relative;
+        z-index: 1;
     }
 
+    .table-subtitle {
+        opacity: 0.9;
+        margin: 0.5rem 0 0 0;
+        font-size: 0.95rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Table Actions */
     .table-actions {
         display: flex;
         gap: 1rem;
-        margin-bottom: 1.5rem;
-        padding: 1.5rem 2rem 0;
+        padding: 1.5rem 2rem;
+        background: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+        flex-wrap: wrap;
+        align-items: center;
     }
 
     .btn-new {
-        background: #4caf50;
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
         border: none;
         color: white;
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-weight: 500;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-weight: 600;
         transition: all 0.3s ease;
         display: flex;
         align-items: center;
         gap: 8px;
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
     }
 
     .btn-new:hover {
-        background: #45a049;
-        transform: translateY(-1px);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
         color: white;
     }
 
     .btn-export {
         background: white;
-        border: 1px solid #e0e0e0;
-        color: #546e7a;
+        border: 2px solid #667eea;
+        color: #667eea;
         padding: 10px 20px;
-        border-radius: 8px;
-        font-weight: 500;
+        border-radius: 10px;
+        font-weight: 600;
         transition: all 0.3s ease;
         display: flex;
         align-items: center;
@@ -120,30 +217,32 @@
     }
 
     .btn-export:hover {
-        background: #f5f5f5;
-        color: #2c3e50;
+        background: #667eea;
+        color: white;
+        transform: translateY(-1px);
     }
 
     .search-box {
         flex: 1;
-        max-width: 300px;
+        max-width: 400px;
         margin-left: auto;
     }
 
     .search-input {
         width: 100%;
-        padding: 10px 15px 10px 40px;
-        border: 1px solid #e0e0e0;
-        border-radius: 25px;
-        font-size: 0.9rem;
+        padding: 12px 20px 12px 45px;
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
+        font-size: 0.95rem;
         background: white;
         transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
 
     .search-input:focus {
         outline: none;
-        border-color: #2196f3;
-        box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        border-color: #667eea;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
     }
 
     .search-icon {
@@ -151,9 +250,11 @@
         left: 15px;
         top: 50%;
         transform: translateY(-50%);
-        color: #9e9e9e;
+        color: #6c757d;
+        z-index: 2;
     }
 
+    /* Table Styling */
     .table-responsive {
         margin: 0;
     }
@@ -161,196 +262,260 @@
     .data-table {
         width: 100%;
         margin: 0;
-        background: transparent;
+        border-collapse: separate;
+        border-spacing: 0;
     }
 
     .data-table th {
         background: #f8f9fa;
-        color: #2c3e50;
+        color: #495057;
         font-weight: 600;
-        padding: 1rem 1.5rem;
+        padding: 1.25rem 1.5rem;
         border: none;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         border-bottom: 2px solid #e9ecef;
+        position: sticky;
+        top: 0;
+        z-index: 10;
     }
 
     .data-table td {
-        padding: 1rem 1.5rem;
+        padding: 1.25rem 1.5rem;
         border: none;
-        border-bottom: 1px solid #f0f0f0;
+        border-bottom: 1px solid #f8f9fa;
         vertical-align: middle;
-        color: #546e7a;
+        color: #495057;
+        transition: all 0.3s ease;
     }
 
     .data-table tbody tr {
         transition: all 0.3s ease;
+        background: white;
     }
 
     .data-table tbody tr:hover {
-        background: rgba(33, 150, 243, 0.05);
-        transform: scale(1.01);
+        background: linear-gradient(90deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        transform: scale(1.002);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 
+    /* Status Badges */
     .status-badge {
-        padding: 4px 12px;
+        padding: 6px 16px;
         border-radius: 20px;
         font-size: 0.8rem;
-        font-weight: 500;
-        display: inline-block;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
     .status-online {
-        background: #e8f5e8;
-        color: #2e7d32;
+        background: rgba(40, 167, 69, 0.1);
+        color: #28a745;
+        border: 1px solid rgba(40, 167, 69, 0.2);
     }
 
     .status-offline {
-        background: #ffebee;
-        color: #c62828;
+        background: rgba(220, 53, 69, 0.1);
+        color: #dc3545;
+        border: 1px solid rgba(220, 53, 69, 0.2);
     }
 
     .status-maintenance {
-        background: #fff3e0;
-        color: #ef6c00;
+        background: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+        border: 1px solid rgba(255, 193, 7, 0.2);
+    }
+
+    /* Device Icons */
+    .device-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
     }
 
     .device-icon {
-        width: 35px;
-        height: 35px;
-        border-radius: 8px;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1rem;
+        font-size: 1.1rem;
         color: white;
-        margin-right: 10px;
+        flex-shrink: 0;
     }
 
     .device-esp32 {
-        background: linear-gradient(135deg, #ff5722, #ff7043);
+        background: linear-gradient(135deg, #ff6b6b, #ee5a24);
     }
 
     .device-sensor {
-        background: linear-gradient(135deg, #2196f3, #42a5f5);
+        background: linear-gradient(135deg, #4ecdc4, #00b894);
     }
 
     .device-gateway {
-        background: linear-gradient(135deg, #4caf50, #66bb6a);
+        background: linear-gradient(135deg, #a55eea, #8854d0);
     }
 
+    .device-details h6 {
+        margin: 0;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .device-details small {
+        color: #6c757d;
+        font-size: 0.8rem;
+    }
+
+    /* Action Buttons */
     .action-buttons {
         display: flex;
         gap: 8px;
+        justify-content: center;
     }
 
     .btn-action {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
         border: none;
-        border-radius: 6px;
+        border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 0.9rem;
         transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     .btn-edit {
-        background: #e3f2fd;
-        color: #1976d2;
+        background: linear-gradient(135deg, #17a2b8, #6f42c1);
+        color: white;
     }
 
     .btn-edit:hover {
-        background: #1976d2;
-        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3);
     }
 
     .btn-delete {
-        background: #ffebee;
-        color: #d32f2f;
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: white;
     }
 
     .btn-delete:hover {
-        background: #d32f2f;
-        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
     }
 
     .btn-config {
-        background: #f3e5f5;
-        color: #7b1fa2;
-    }
-
-    .btn-config:hover {
-        background: #7b1fa2;
+        background: linear-gradient(135deg, #ffc107, #fd7e14);
         color: white;
     }
 
+    .btn-config:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+    }
+
+    /* Empty State */
     .empty-state {
         text-align: center;
         padding: 4rem 2rem;
-        color: #9e9e9e;
+        color: #6c757d;
     }
 
     .empty-icon {
         font-size: 4rem;
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
         opacity: 0.3;
+        color: #667eea;
     }
 
     .empty-message {
-        font-size: 1.1rem;
+        font-size: 1.3rem;
         margin-bottom: 0.5rem;
+        color: #495057;
+        font-weight: 600;
     }
 
     .empty-description {
-        font-size: 0.9rem;
-        color: #bdbdbd;
+        font-size: 1rem;
+        color: #6c757d;
+        max-width: 400px;
+        margin: 0 auto;
+        line-height: 1.6;
     }
 
+    /* Pagination */
     .pagination-container {
         display: flex;
-        justify-content: between;
+        justify-content: space-between;
         align-items: center;
         padding: 1.5rem 2rem;
-        border-top: 1px solid #f0f0f0;
+        background: #f8f9fa;
+        border-top: 1px solid #e9ecef;
     }
 
     .pagination-info {
-        color: #9e9e9e;
+        color: #6c757d;
         font-size: 0.9rem;
-    }
-
-    .stats-row {
-        display: flex;
-        gap: 2rem;
-        margin-bottom: 2rem;
-    }
-
-    .stat-card-small {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 12px;
-        padding: 1.5rem;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        flex: 1;
-        text-align: center;
-    }
-
-    .stat-number-small {
-        font-size: 1.8rem;
-        font-weight: 700;
-        color: #2c3e50;
-        display: block;
-        margin-bottom: 0.3rem;
-    }
-
-    .stat-label-small {
-        font-size: 0.9rem;
-        color: #546e7a;
         font-weight: 500;
+    }
+
+    .pagination {
+        margin: 0;
+    }
+
+    .page-link {
+        border: none;
+        border-radius: 8px;
+        margin: 0 2px;
+        color: #495057;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .page-link:hover {
+        background: #667eea;
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    .page-item.active .page-link {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .main-container {
+            padding: 1rem;
+        }
+        
+        .table-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .search-box {
+            max-width: none;
+            margin-left: 0;
+        }
+        
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .data-table {
+            font-size: 0.8rem;
+        }
     }
 </style>
 @endpush
@@ -359,42 +524,54 @@
 <div class="main-container">
     <!-- Breadcrumb -->
     <nav class="breadcrumb-nav">
-        <a href="#">ESP32</a>
-        <span class="mx-2">•</span>
-        <a href="#">LTE (SIM7670G)</a>
-        <span class="mx-2">•</span>
-        <a href="#">PostgreSQL</a>
-        <span class="mx-2">•</span>
-        <a href="#">Panel demo</a>
-        <span class="mx-2">•</span>
-        <span class="active">Tabla de Registros</span>
+        <a href="#"><i class="fas fa-microchip me-1"></i>ESP32</a>
+        <span class="separator">›</span>
+        <a href="#"><i class="fas fa-wifi me-1"></i>LTE (SIM7670G)</a>
+        <span class="separator">›</span>
+        <a href="#"><i class="fas fa-database me-1"></i>PostgreSQL</a>
+        <span class="separator">›</span>
+        <a href="#"><i class="fas fa-tachometer-alt me-1"></i>Panel demo</a>
+        <span class="separator">›</span>
+        <span class="active"><i class="fas fa-table me-1"></i>Tabla de Registros</span>
     </nav>
 
     <!-- Header Section -->
     <div class="header-section">
-        <h1 class="page-title">Tabla de Registros IoT</h1>
+        <h1 class="page-title">Dashboard de Dispositivos IoT</h1>
         <p class="page-subtitle">
-            Visualiza y gestiona todos los dispositivos IoT, sensores y sus datos de telemetría en tiempo real
+            Monitorea y gestiona todos tus dispositivos conectados en tiempo real desde una interfaz unificada
         </p>
     </div>
 
-    <!-- Statistics Row -->
-    <div class="stats-row">
-        <div class="stat-card-small">
-            <span class="stat-number-small">0</span>
-            <div class="stat-label-small">Total Dispositivos</div>
+    <!-- Statistics Grid -->
+    <div class="stats-grid">
+        <div class="stat-card total">
+            <div class="stat-icon">
+                <i class="fas fa-microchip"></i>
+            </div>
+            <span class="stat-number">12</span>
+            <div class="stat-label">Total Dispositivos</div>
         </div>
-        <div class="stat-card-small">
-            <span class="stat-number-small">0</span>
-            <div class="stat-label-small">Activos</div>
+        <div class="stat-card active">
+            <div class="stat-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <span class="stat-number">8</span>
+            <div class="stat-label">En Línea</div>
         </div>
-        <div class="stat-card-small">
-            <span class="stat-number-small">0</span>
-            <div class="stat-label-small">Offline</div>
+        <div class="stat-card offline">
+            <div class="stat-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <span class="stat-number">2</span>
+            <div class="stat-label">Offline</div>
         </div>
-        <div class="stat-card-small">
-            <span class="stat-number-small">0</span>
-            <div class="stat-label-small">Mantenimiento</div>
+        <div class="stat-card maintenance">
+            <div class="stat-icon">
+                <i class="fas fa-tools"></i>
+            </div>
+            <span class="stat-number">2</span>
+            <div class="stat-label">Mantenimiento</div>
         </div>
     </div>
 
@@ -402,30 +579,31 @@
     <div class="table-container">
         <div class="table-header">
             <h2 class="table-title">
-                <i class="fas fa-microchip me-2"></i>
-                Dispositivos y Sensores IoT
+                <i class="fas fa-list-alt me-2"></i>
+                Registro de Dispositivos Conectados
             </h2>
+            <p class="table-subtitle">Gestiona y monitorea el estado de todos los dispositivos IoT en tu red</p>
         </div>
 
         <!-- Table Actions -->
         <div class="table-actions">
-            <button class="btn btn-new">
-                <i class="fas fa-plus"></i>
+            <button class="btn btn-new" onclick="showNewDeviceModal()">
+                <i class="fas fa-plus-circle"></i>
                 Nuevo Dispositivo
             </button>
             <button class="btn btn-export">
-                <i class="fas fa-download"></i>
-                Exportar
+                <i class="fas fa-file-export"></i>
+                Exportar CSV
             </button>
             <div class="search-box position-relative">
                 <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-input" placeholder="Buscar dispositivos...">
+                <input type="text" class="search-input" placeholder="Buscar por nombre, ID o ubicación...">
             </div>
         </div>
 
         <!-- Table -->
         <div class="table-responsive">
-            <table class="data-table">
+            <table class="table data-table">
                 <thead>
                     <tr>
                         <th>Dispositivo</th>
@@ -439,14 +617,134 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Empty State -->
+                    <!-- Sample Data Row 1 -->
                     <tr>
-                        <td colspan="9" class="empty-state">
-                            <div class="empty-icon">
-                                <i class="fas fa-microchip"></i>
+                        <td>
+                            <div class="device-info">
+                                <div class="device-icon device-esp32">
+                                    <i class="fas fa-microchip"></i>
+                                </div>
+                                <div class="device-details">
+                                    <h6>ESP32-Temp-001</h6>
+                                    <small>Sensor Principal</small>
+                                </div>
                             </div>
-                            <div class="empty-message">No hay dispositivos registrados</div>
-                            <div class="empty-description">Comienza agregando tu primer dispositivo IoT para comenzar a monitorear datos</div>
+                        </td>
+                        <td><strong>ESP32</strong></td>
+                        <td><code>ESP32-001-2024</code></td>
+                        <td>
+                            <span class="status-badge status-online">
+                                <i class="fas fa-circle"></i>
+                                En Línea
+                            </span>
+                        </td>
+                        <td>Laboratorio A - Piso 2</td>
+                        <td>hace 2 min</td>
+                        <td>
+                            <div class="progress" style="height: 6px; width: 80px;">
+                                <div class="progress-bar bg-success" style="width: 85%"></div>
+                            </div>
+                            <small>85%</small>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action btn-edit" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-action btn-config" title="Configurar">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                                <button class="btn-action btn-delete" title="Eliminar">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Sample Data Row 2 -->
+                    <tr>
+                        <td>
+                            <div class="device-info">
+                                <div class="device-icon device-sensor">
+                                    <i class="fas fa-thermometer-half"></i>
+                                </div>
+                                <div class="device-details">
+                                    <h6>Sensor-Presion-02</h6>
+                                    <small>Monitor de Presión</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td><strong>Sensor</strong></td>
+                        <td><code>SENS-002-2024</code></td>
+                        <td>
+                            <span class="status-badge status-offline">
+                                <i class="fas fa-circle"></i>
+                                Offline
+                            </span>
+                        </td>
+                        <td>Almacén - Zona B</td>
+                        <td>hace 1 hora</td>
+                        <td>
+                            <div class="progress" style="height: 6px; width: 80px;">
+                                <div class="progress-bar bg-warning" style="width: 45%"></div>
+                            </div>
+                            <small>45%</small>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action btn-edit" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-action btn-config" title="Configurar">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                                <button class="btn-action btn-delete" title="Eliminar">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Sample Data Row 3 -->
+                    <tr>
+                        <td>
+                            <div class="device-info">
+                                <div class="device-icon device-gateway">
+                                    <i class="fas fa-broadcast-tower"></i>
+                                </div>
+                                <div class="device-details">
+                                    <h6>Gateway-Central</h6>
+                                    <small>Gateway Principal</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td><strong>Gateway</strong></td>
+                        <td><code>GW-001-2024</code></td>
+                        <td>
+                            <span class="status-badge status-maintenance">
+                                <i class="fas fa-circle"></i>
+                                Mantenimiento
+                            </span>
+                        </td>
+                        <td>Sala de Servidores</td>
+                        <td>hace 30 min</td>
+                        <td>
+                            <span class="text-success">
+                                <i class="fas fa-plug"></i> Conectado
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action btn-edit" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-action btn-config" title="Configurar">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                                <button class="btn-action btn-delete" title="Eliminar">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -456,18 +754,28 @@
         <!-- Pagination -->
         <div class="pagination-container">
             <div class="pagination-info">
-                Mostrando 0 de 0 dispositivos
+                Mostrando 3 de 12 dispositivos
             </div>
             <nav aria-label="Paginación">
-                <ul class="pagination pagination-sm mb-0">
+                <ul class="pagination mb-0">
                     <li class="page-item disabled">
-                        <span class="page-link">Anterior</span>
+                        <span class="page-link">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
                     </li>
                     <li class="page-item active">
                         <span class="page-link">1</span>
                     </li>
-                    <li class="page-item disabled">
-                        <span class="page-link">Siguiente</span>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
                     </li>
                 </ul>
             </nav>
@@ -532,51 +840,27 @@
 
 @push('js')
 <script>
-    // Ejemplo de datos para cuando haya registros
-    const sampleData = [
-        {
-            name: "ESP32-Temp-001",
-            type: "ESP32",
-            id: "ESP32-001-2024",
-            status: "online",
-            location: "Laboratorio A - Piso 2",
-            lastActivity: "hace 2 min",
-            sensors: "Temp, Humedad",
-            battery: "85%"
-        },
-        {
-            name: "Sensor-Presion-02",
-            type: "Sensor",
-            id: "SENS-002-2024",
-            status: "offline",
-            location: "Almacén - Zona B",
-            lastActivity: "hace 1 hora",
-            sensors: "Presión",
-            battery: "45%"
-        },
-        {
-            name: "Gateway-Central",
-            type: "Gateway",
-            id: "GW-001-2024",
-            status: "maintenance",
-            location: "Sala de Servidores",
-            lastActivity: "hace 30 min",
-            sensors: "N/A",
-            battery: "Conectado"
-        }
-    ];
-
-    // Función para mostrar modal de nuevo dispositivo
     function showNewDeviceModal() {
         new bootstrap.Modal(document.getElementById('newDeviceModal')).show();
     }
 
-    // Event listener para el botón de nuevo dispositivo
+    // Search functionality
     document.addEventListener('DOMContentLoaded', function() {
-        const newDeviceBtn = document.querySelector('.btn-new');
-        if (newDeviceBtn) {
-            newDeviceBtn.addEventListener('click', showNewDeviceModal);
-        }
+        const searchInput = document.querySelector('.search-input');
+        const tableRows = document.querySelectorAll('.data-table tbody tr');
+        
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            tableRows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
     });
 </script>
 @endpush
