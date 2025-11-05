@@ -18,6 +18,7 @@ return new class extends Migration
               $t->foreignId('id_sensor')->constrained('sensors');
               $t->foreignId('id_station')->constrained('stations');
               $t->float('temp_value')->nullable();
+              $t->float('humidity')->nullable();
               $t->boolean('status')->default(true);
               $t->timestamps();
               $t->softDeletes();
